@@ -3,7 +3,7 @@ import numpy as np
 
 # Load the Allero right hand model
 def load_model():
-    model_path = "/home/gaurav/mujoco_menagerie/wonik_allegro/scene_right.xml"  # Update with your model path
+    model_path = "scene_right.xml"  # Update with your model path
     model = mujoco.MjModel.from_xml_path(model_path)
     data = mujoco.MjData(model)
     return model, data
