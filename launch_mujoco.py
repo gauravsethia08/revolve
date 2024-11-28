@@ -36,6 +36,8 @@ def main():
     joint_values = np.array([0.0]*16)  # Adjust according to your model's DOF
     # set_joint_values(data, joint_values)
 
+    # Test IK 
+
     # Step the simulation
     mujoco.mj_step(model, data)
 
