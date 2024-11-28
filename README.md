@@ -30,6 +30,9 @@ pip install -r requirements.txt
 python test_mujoco_setup.py
 ```
 
+### 2. To Do's
+- [ ] Figure out valid contact pairs between different phalanges of the fingers + the palm. Add these into the collision detection model.
+
 ### Project Management (To be discussed)
 1. Create an issue and assign it to person responsible for that
 2. Ideally create a branch for each issue
