@@ -1,6 +1,8 @@
 <mujoco model="right_allegro_hand scene">
   <include file="right_hand.xml"/>
 
+  <option gravity="0 0 -9.81"/>
+
   <statistic center="0 0 0" extent="0.3"/>
 
   <visual>
@@ -20,10 +22,10 @@
     <light pos="0 0 1"/>
     <light pos="0.3 0 1.5" dir="0 0 -1" directional="true"/>
     <geom name="floor" pos="0 0 -0.1" size="0 0 0.05" type="plane" material="groundplane"/>
-    <body name="object" pos="0 0 0.1" >
-      <!-- <freejoint/> -->
+    <body name="pen" pos="0 0 0.1" >
+      <freejoint/>
       <geom type="cylinder" size="0.005 0.1 0.1" rgba="0.5 0.7 0.5 1" condim="6" priority="1"
       friction="0.7 0.002 0.002" euler="1.57 0 0"/>
     </body>
-    </worldbody>
+  </worldbody>
 </mujoco>

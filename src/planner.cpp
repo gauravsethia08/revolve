@@ -143,7 +143,6 @@ class RRTPlanner{
 	}
 
 	pair<bool, Node*> extend(vector<Node*>& tree, Node* q){
-		
 		Node* q_near = nearest_neighbor(tree, q);
 		Node* q_new = new Node();
 
@@ -226,6 +225,7 @@ int main()
 {
 	// Load the model
 	mjModel* model = mj_loadXML("../scene_right.xml", NULL, NULL, 0);
+	model->opt.gravity[2] = -9.81; // Enable gravity
 
 	if (!model) {
 		std::cerr << "Failed to load model: " << std::endl;
@@ -277,6 +277,13 @@ int main()
     // Initialize camera
     mjvCamera camera;
     mjv_defaultCamera(&camera);
+	// Set camera properties to zoom in
+	camera.lookat[0] = 0.0;
+	camera.lookat[1] = 0.0;
+	camera.lookat[2] = 0.0;
+	camera.distance = 1.0; // Adjust this value to zoom in or out
+	camera.azimuth = 90.0; // Adjust this value to change the horizontal angle
+	camera.elevation = -45.0;
 
     mjvOption opt;
     mjv_defaultOption(&opt);
@@ -305,6 +312,40 @@ int main()
 	cout << "Plan Length: " << planlength << endl;
 
 	cin.get(); 
+
+	// Ensure gravity is enabled in the model
+	model->opt.gravity[1] = -9.81; // Set gravity along the z-axis
+
+	// Make the body as free joint now and keep running the simulation 
+	// int body_id = mj_name2id(model, mjOBJ_BODY, "pen"); 
+	// if (body_id != -1) {
+	// 	int jnt_adr = model->body_jntadr[body_id];
+	// 	model->jnt_type[jnt_adr] = mjJNT_FREE;
+	// 	// model->jnt_qposadr[jnt_adr] = 0; // Initialize joint position address
+	// 	// Set the position and orientation of the body
+	// 	data->qpos[model->jnt_qposadr[jnt_adr] + 0] = 0.0; // x position
+	// 	data->qpos[model->jnt_qposadr[jnt_adr] + 1] = 0.0; // y position
+	// 	data->qpos[model->jnt_qposadr[jnt_adr] + 2] = 0.1; // z position (height)
+
+	// 	// Set the orientation as a quaternion (w, x, y, z)
+	// 	data->qpos[model->jnt_qposadr[jnt_adr] + 3] = 1.0; // w (real part)
+	// 	data->qpos[model->jnt_qposadr[jnt_adr] + 4] = 0.0; // x (imaginary part)
+	// 	data->qpos[model->jnt_qposadr[jnt_adr] + 5] = 0.0; // y (imaginary part)
+	// 	data->qpos[model->jnt_qposadr[jnt_adr] + 6] = 0.0; // z (imaginary part)
+	// 	model->jnt_dofadr[jnt_adr] = 0;  // Initialize joint degrees of freedom address
+	// 	model->jnt_limited[jnt_adr] = 0; // No joint limits
+
+	// 	// // Initialize joint position and velocity
+	// 	// for (int i = 0; i < 7; ++i) { // 7 is the number of DOFs for a free joint
+	// 	// 	data->qpos[model->jnt_qposadr[jnt_adr] + i] = 0.0;
+	// 	// 	data->qvel[model->jnt_dofadr[jnt_adr] + i] = 0.0;
+	// 	// }
+
+	// 	// Ensure the simulation is updated
+	// 	mj_forward(model, data);
+	// } else {
+	// 	std::cerr << "Body name 'pen' not found!" << std::endl;
+	// }
 	
 	if (result) {
 		for (int i = 0; i < planlength; i++) {
@@ -325,6 +366,59 @@ int main()
 			// Add a small delay to visualize the motion
 			std::this_thread::sleep_for(std::chrono::milliseconds(100));
 		}
+	}
+
+	// --------------------------------------------------------------------------------------------------
+	// int body_id = mj_name2id(model, mjOBJ_BODY, "pen"); 
+	// if (body_id != -1) {
+	// 	int jnt_adr = model->body_jntadr[body_id];
+	// 	cout << "Joint Type for body 'pen': " << model->jnt_type[jnt_adr] << mjJNT_FREE << endl;
+	// } else {
+	// 	std::cerr << "Body name 'pen' not found!" << std::endl;
+	// }
+	// --------------------------------------------------------------------------------------------------
+
+	// Make the body as free joint now and keep running the simulation 
+	// int body_id = mj_name2id(model, mjOBJ_BODY, "pen"); 
+	// cout << "Body ID: " << body_id << endl;
+	// if (body_id != -1) {
+	// 	// model->jnt_type[model->body_jntadr[body_id]] = mjJNT_FREE;
+	// 	// Initialize joint parameters
+	// 	int jnt_adr = model->body_jntadr[body_id];
+	// 	cout << "Joint Type : " << model->jnt_type[jnt_adr] << endl;
+    // 	model->jnt_type[jnt_adr] = mjJNT_FREE;
+	// 	model->jnt_qposadr[jnt_adr] = 0; // Initialize joint position address
+	// 	model->jnt_dofadr[jnt_adr] = 0;  // Initialize joint degrees of freedom address
+	// 	model->jnt_limited[jnt_adr] = 0; // No joint limits
+
+	// 	// Initialize joint position and velocity
+	// 	for (int i = 0; i < 7; ++i) { // 7 is the number of DOFs for a free joint
+	// 		data->qpos[model->jnt_qposadr[jnt_adr] + i] = 0.0;
+	// 		data->qvel[model->jnt_dofadr[jnt_adr] + i] = 0.0;
+	// 	}
+		
+	// 	// Ensure the simulation is updated
+	// 	mj_forward(model, data);
+	// } else {
+	// 	std::cerr << "Body name not found!" << std::endl;
+	// }
+
+	while (!glfwWindowShouldClose(window)) {
+		// Step the simulation
+		// mj_step(model, data);
+		for (int j = 0; j < NUM_OF_JOINTS; j++) {
+			data->qpos[j] = plan[planlength-1][j];
+		}
+		mj_forward(model, data);
+
+		// Render scene
+		mjrRect viewport = {0, 0, 1200, 900};
+		mjv_updateScene(model, data, &opt, nullptr, &camera, mjCAT_ALL, &scene);
+		mjr_render(viewport, &scene, &context);
+
+		// Swap OpenGL buffers
+		glfwSwapBuffers(window);
+		glfwPollEvents();
 	}
 
 	// Cleanup

@@ -23,6 +23,7 @@ project(LoadMuJoCoModel)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+
 # Specify MuJoCo include and library paths
 set(MUJOCO_INCLUDE_DIR "/home/gaurav/.mujoco/mujoco-3.2.5/include")
 set(MUJOCO_LIB_DIR "/home/gaurav/.mujoco/mujoco-3.2.5/lib")
@@ -34,10 +35,13 @@ pkg_check_modules(GLFW REQUIRED glfw3)
 # Add executable
 add_executable(collision_checker src/collision_checker.cpp)
 add_executable(planner src/planner.cpp)
+# add_executable(main src/main.cpp)
 
 # Include directories
+include_directories(include)
 target_include_directories(collision_checker PRIVATE ${MUJOCO_INCLUDE_DIR} ${GLFW_INCLUDE_DIRS})
 target_include_directories(planner PRIVATE ${MUJOCO_INCLUDE_DIR} ${GLFW_INCLUDE_DIRS})
+# target_include_directories(main PRIVATE ${MUJOCO_INCLUDE_DIR} ${GLFW_INCLUDE_DIRS})
 
 # Link libraries
 target_link_libraries(collision_checker PRIVATE 
@@ -55,3 +59,11 @@ target_link_libraries(planner PRIVATE
     dl
     m
 )
+
+# target_link_libraries(main PRIVATE 
+#     ${MUJOCO_LIB_DIR}/libmujoco.so
+#     ${GLFW_LIBRARIES}
+#     pthread
+#     dl
+#     m
+# )
