@@ -32,7 +32,8 @@ python test_mujoco_setup.py
 
 ### 2. To Do's
 - [ ] Figure out valid contact pairs between different phalanges of the fingers + the palm. Add these into the collision detection model.
-- [ ] Appropriately tune the epsilon value for taking steps towards the random joint config. We need to balance taking small enough steps such that MuJoCo does not take too long to converge to finding a collision. Also need to balance that epsilon is not too small that it takes forever to get to q_rand and/or run into an obstacle. 
+- [ ] Appropriately tune the epsilon value for taking steps towards the random joint config. We need to balance taking small enough steps such that MuJoCo does not take too long to converge to finding a collision. Also need to balance that epsilon is not too small that it takes forever to get to q_rand and/or run into an obstacle.
+- [ ] Account for the actual joint limits when generating q_rand (i.e., don't generate a joint of pi if pi is not a physically possible state)
 
 ### Project Management (To be discussed)
 1. Create an issue and assign it to person responsible for that
