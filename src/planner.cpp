@@ -21,6 +21,10 @@
 using namespace std;
 #define NUM_OF_JOINTS 16
 
+// Set random seed
+void setRandomSeed(unsigned int seed) {
+	srand(seed);
+}
 
 // Callback for GLFW errors
 void glfwErrorCallback(int error, const char* description) {
@@ -57,7 +61,56 @@ class RRTPlanner{
 
 
 	RRTPlanner(mjModel* model, mjData* data, double* start_anglesV_rad, double* goal_anglesV_rad, double eps, vector<pair<int, int>> allowed_collisions)
-		: model(model), data(data), start_anglesV_rad(start_anglesV_rad), goal_anglesV_rad(goal_anglesV_rad), eps(eps), allowed_collisions(allowed_collisions) {}
+		: model(model), data(data), start_anglesV_rad(start_anglesV_rad), goal_anglesV_rad(goal_anglesV_rad), eps(eps), allowed_collisions(allowed_collisions) 
+	{
+		// setRandomSeed(10);
+		// cout << "GEOM IDS" << endl;
+		// cout << "Floor: " << mj_name2id(model, mjOBJ_GEOM, "floor") << endl;
+		// cout << "box: " << mj_name2id(model, mjOBJ_GEOM, "table") << endl;
+		// cout << "Pen: " << mj_name2id(model, mjOBJ_GEOM, "pen") << endl;
+
+		// cout << "palm: " << mj_name2id(model, mjOBJ_BODY, "palm") << endl;
+		
+		// cout << "ff_base: " << mj_name2id(model, mjOBJ_BODY, "ff_base") << endl;
+		// cout << "ff_proximal: " << mj_name2id(model, mjOBJ_BODY, "ff_proximal") << endl;
+		// cout << "ff_medial: " << mj_name2id(model, mjOBJ_BODY, "ff_medial") << endl;
+		// cout << "ff_distal: " << mj_name2id(model, mjOBJ_BODY, "ff_distal") << endl;
+
+		// cout << "mf_base: " << mj_name2id(model, mjOBJ_BODY, "mf_base") << endl;
+		// cout << "mf_proximal: " << mj_name2id(model, mjOBJ_BODY, "mf_proximal") << endl;
+		// cout << "mf_medial: " << mj_name2id(model, mjOBJ_BODY, "mf_medial") << endl;
+		// cout << "mf_distal: " << mj_name2id(model, mjOBJ_BODY, "mf_distal") << endl;
+		// cout << "mf_tip: " << mj_name2id(model, mjOBJ_BODY, "mf_tip") << endl;
+
+		// cout << "rf_base: " << mj_name2id(model, mjOBJ_BODY, "rf_base") << endl;
+		// cout << "rf_proximal: " << mj_name2id(model, mjOBJ_BODY, "rf_proximal") << endl;
+		// cout << "rf_medial: " << mj_name2id(model, mjOBJ_BODY, "rf_medial") << endl;
+		// cout << "rf_distal: " << mj_name2id(model, mjOBJ_BODY, "rf_distal") << endl;
+		// cout << "rf_tip: " << mj_name2id(model, mjOBJ_BODY, "rf_tip") << endl;
+
+		// cout << "th_base: " << mj_name2id(model, mjOBJ_BODY, "th_base") << endl;
+		// cout << "th_proximal: " << mj_name2id(model, mjOBJ_BODY, "th_proximal") << endl;
+		// cout << "th_medial: " << mj_name2id(model, mjOBJ_BODY, "th_medial") << endl;
+		// cout << "th_distal: " << mj_name2id(model, mjOBJ_BODY, "th_distal") << endl;
+		// cout << "th_tip: " << mj_name2id(model, mjOBJ_BODY, "th_tip") << endl;
+
+		// cout << "table_: " << mj_name2id(model, mjOBJ_BODY, "table_") << endl;
+		// cout << "Pen_: " << mj_name2id(model, mjOBJ_BODY, "Pen_") << endl;
+
+		// cout << "ffj0: " << mj_name2id(model, mjOBJ_JOINT, "ffj0") << endl;
+		// cout << "thj3: " << mj_name2id(model, mjOBJ_JOINT, "thj3") << endl;
+
+		for (int i = 0; i < 45; i++)
+		{
+			cout << "Geom ID: " << i << endl;
+			if (mj_id2name(model, mjOBJ_GEOM, i) != nullptr)
+			{
+				cout << "Name: " << mj_id2name(model, mjOBJ_GEOM, i) << endl;
+			}
+		}
+
+		cout << "DONE." << endl;
+	}
 	
 	Node* random_config(Node* q_goal){
 		// Generate a random configuration with some probability, make random config as goal
@@ -100,14 +153,75 @@ class RRTPlanner{
 			int geom1 = contact.geom1;
 			int geom2 = contact.geom2;
 
+			// const char* object_name_1 = mj_id2name(model, mjOBJ_BODY, geom1);
+			// const char* geom_name_1 = mj_id2name(model, mjOBJ_GEOM, geom1);
+			// const char* joint_name_1 = mj_id2name(model, mjOBJ_JOINT, geom1);
 
-			std::cout << "  Contact " << j << ": "
-				<< "geom1 = " << geom1
-				<< ", geom2 = " << geom2
+			// const char* object_name_2 = mj_id2name(model, mjOBJ_BODY, geom2);
+			// const char* geom_name_2 = mj_id2name(model, mjOBJ_GEOM, geom2);
+			// const char* joint_name_2 = mj_id2name(model, mjOBJ_JOINT, geom2);
+			// const char* site_name_2 = mj_id2name(model, mjOBJ_SITE, geom2);
+			// const char* sensor_name_2 = mj_id2name(model, mjOBJ_SENSOR, geom2);
+			// const char* acc_name_2 = mj_id2name(model, mjOBJ_ACTUATOR, geom2);
+			// const char* light_name_2 = mj_id2name(model, mjOBJ_LIGHT, geom2);
+			// const char* camera_name_2 = mj_id2name(model, mjOBJ_CAMERA, geom2);
+
+
+			
+			// if (site_name_2 == nullptr){
+			// 	cout << "Site Name 2 is null" << endl;
+			// }
+
+			// if (sensor_name_2 == nullptr){
+			// 	cout << "Sensor Name 2 is null" << endl;
+			// }
+
+			// if (acc_name_2 == nullptr){
+			// 	cout << "Acc Name 2 is null" << endl;
+			// }
+
+			// if (light_name_2 == nullptr){
+			// 	cout << "Light Name 2 is null" << endl;
+			// }
+
+			// if (camera_name_2 == nullptr){
+			// 	cout << "Camera Name 2 is null" << endl;
+			// }
+
+			// if (joint_name_2 == nullptr){
+			// 	cout << "Joint Name 2 is null" << endl;
+			// }
+
+			// if (object_name_1 == nullptr){
+			// 	cout << "Object Name 1 is null" << endl;
+			// 	if (geom_name_1 == nullptr){
+			// 		cout << "Geom Name 1 is null" << endl;
+			// 		object_name_1 = joint_name_1;
+			// 	}
+			// 	else{
+			// 		object_name_1 = geom_name_1;
+			// 	}
+			// }
+
+			// if (object_name_2 == nullptr){
+			// 	cout << "Object Name 2 is null" << endl;
+			// 	if (geom_name_2 == nullptr){
+			// 		cout << "Geom Name 2 is null" << endl;
+			// 		object_name_2 = joint_name_2;
+			// 	}
+			// 	else{
+			// 		object_name_2 = geom_name_2;
+			// 	}
+			// }
+
+			// cout << "Object Name: " << object_name << endl;
+			std::cout << "  Contact " << j << ": " 
+				<< "geom1 = " << geom1 // << "," << object_name_1
+				<< ", geom2 = " << geom2 // << "," << object_name_2
 				<< ", dist = " << contact.dist
 				<< ", normal = [" << contact.frame[0] << ", " << contact.frame[1] << ", " << contact.frame[2] << "]"
 				<< std::endl;
-
+	
 			// This is assuming the mujoco returns a sorted pair of geom ids, thus we sort the  pair and then check for collision        
 			pair<int, int> current_collision_body = {min(geom1, geom2), max(geom1, geom2)};
 
@@ -291,8 +405,8 @@ int main()
 
 	// Initialize the planner
 	double start_anglesV_rad[NUM_OF_JOINTS] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-	double goal_anglesV_rad[NUM_OF_JOINTS] = {0.193, 1.03, 0.862, 0.373, 0.103, 0.96, 1.03, 0.363, 0.0, 0.933, 1.02, 0.566, 1.07, 0.802, 0.847};
-	vector<pair<int, int>> allowed_collisions = {{12, 43}, {22, 43}, {32, 43}, {42, 43}};
+	double goal_anglesV_rad[NUM_OF_JOINTS] = {0.0, 1.61, 0.0, 0.0, 0.0, 1.61, 0.0, 0.0 ,0.0, 1.61, 0.0, 0.0, 1.32, 0.453, 0.727, 0.0};//#{0.193, 1.03, 0.862, 0.373, 0.103, 0.96, 1.03, 0.363, 0.0, 0.933, 1.02, 0.566, 1.07, 0.802, 0.847};
+	vector<pair<int, int>> allowed_collisions = {{12, 44}, {22, 44}, {32, 44}, {42, 44}, {12, 43}, {22, 43}, {32, 43}, {42, 43}, {43,44}};
 
 	RRTPlanner planner(model, data, start_anglesV_rad, goal_anglesV_rad, 0.1, allowed_collisions);
 

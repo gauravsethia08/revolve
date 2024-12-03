@@ -124,30 +124,30 @@
     </asset>
   
     <worldbody>
-      <body name="palm" quat="0 1 0 1" childclass="allegro_right">
+      <body name="palm" quat="0 -0.707 0 0.707" childclass="allegro_right" pos="0 0 0.06">
         <!-- <inertial mass="0.4154" pos="0 0 0.0475" diaginertia="1e-4 1e-4 1e-4"/> -->
         <geom class="palm_visual" mesh="base_link"/>
-        <geom class="palm_collision"/>
+        <geom class="palm_collision" name="palm_COLLISION"/>
         <!-- First finger -->
         <body name="ff_base" pos="0 0.0435 -0.001542" quat="0.999048 -0.0436194 0 0">
           <joint name="ffj0" class="base"/>
           <geom class="base_visual"/>
-          <geom class="base_collision"/>
+          <geom class="base_collision" name="ffj0_col"/>
           <body name="ff_proximal" pos="0 0 0.0164">
             <joint name="ffj1" class="proximal"/>
-            <geom class="proximal_visual"/>
+            <geom class="proximal_visual" name="ffj1_col"/>
             <geom class="proximal_collision"/>
             <body name="ff_medial" pos="0 0 0.054">
               <joint name="ffj2" class="medial"/>
               <geom class="medial_visual"/>
-              <geom class="medial_collision"/>
+              <geom class="medial_collision" name="ffj2_col"/>
               <body name="ff_distal" pos="0 0 0.0384">
                 <joint name="ffj3" class="distal"/>
                 <geom class="distal_visual"/>
-                <geom class="distal_collision"/>
+                <geom class="distal_collision" name="ffdistal_col"/>
                 <body name="ff_tip">
                   <geom class="fingertip_visual"/>
-                  <geom class="fingertip_collision"/>
+                  <geom class="fingertip_collision" name="fftip_col"/>
                 </body>
               </body>
             </body>
@@ -157,22 +157,22 @@
         <body name="mf_base" pos="0 0 0.0007">
           <joint name="mfj0" class="base"/>
           <geom class="base_visual"/>
-          <geom class="base_collision"/>
+          <geom class="base_collision" name="mfj0_col"/>
           <body name="mf_proximal" pos="0 0 0.0164">
             <joint name="mfj1" class="proximal"/>
             <geom class="proximal_visual"/>
-            <geom class="proximal_collision"/>
+            <geom class="proximal_collision" name="mfj1_col"/>
             <body name="mf_medial" pos="0 0 0.054">
               <joint name="mfj2" class="medial"/>
               <geom class="medial_visual"/>
-              <geom class="medial_collision"/>
+              <geom class="medial_collision" name="mfj2_col"/>
               <body name="mf_distal" pos="0 0 0.0384">
                 <joint name="mfj3" class="distal"/>
                 <geom class="distal_visual"/>
-                <geom class="distal_collision"/>
+                <geom class="distal_collision" name="mf3_col"/>
                 <body name="mf_tip">
                   <geom class="fingertip_visual"/>
-                  <geom class="fingertip_collision"/>
+                  <geom class="fingertip_collision" name="mftip_col"/>
                 </body>
               </body>
             </body>
