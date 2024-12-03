@@ -28,9 +28,13 @@
       <geom name="table" type="box" size="0.5 0.5 0.001"  rgba="0.7 0.7 0.7 1" condim="6" friction="0.7 0.002 0.002"/>
     </body>
     <body name="Pen_" pos="0 0 -0.07" >
-      <!-- <freejoint/> -->
+      <freejoint/>
       <geom name="pen" type="cylinder" size="0.02 0.1 0.1" rgba="0.5 0.7 0.5 1" condim="6" priority="1"
       friction="0.7 0.002 0.002" euler="1.57 0 0"/>
     </body>
+    <!-- <body name="Test_cube" pos="0.1 0.1 0.5">
+      <freejoint/>  
+      <geom name="cube" type="box" size="0.1 0.1 0.1" rgba="0.7 0.7 0.7 1" condim="6" friction="0.7 0.002 0.002"/>
+    </body> -->
   </worldbody>
 </mujoco>

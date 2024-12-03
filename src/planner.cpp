@@ -63,49 +63,11 @@ class RRTPlanner{
 	RRTPlanner(mjModel* model, mjData* data, double* start_anglesV_rad, double* goal_anglesV_rad, double eps, vector<pair<int, int>> allowed_collisions)
 		: model(model), data(data), start_anglesV_rad(start_anglesV_rad), goal_anglesV_rad(goal_anglesV_rad), eps(eps), allowed_collisions(allowed_collisions) 
 	{
-		// setRandomSeed(10);
-		// cout << "GEOM IDS" << endl;
-		// cout << "Floor: " << mj_name2id(model, mjOBJ_GEOM, "floor") << endl;
-		// cout << "box: " << mj_name2id(model, mjOBJ_GEOM, "table") << endl;
-		// cout << "Pen: " << mj_name2id(model, mjOBJ_GEOM, "pen") << endl;
-
-		// cout << "palm: " << mj_name2id(model, mjOBJ_BODY, "palm") << endl;
-		
-		// cout << "ff_base: " << mj_name2id(model, mjOBJ_BODY, "ff_base") << endl;
-		// cout << "ff_proximal: " << mj_name2id(model, mjOBJ_BODY, "ff_proximal") << endl;
-		// cout << "ff_medial: " << mj_name2id(model, mjOBJ_BODY, "ff_medial") << endl;
-		// cout << "ff_distal: " << mj_name2id(model, mjOBJ_BODY, "ff_distal") << endl;
-
-		// cout << "mf_base: " << mj_name2id(model, mjOBJ_BODY, "mf_base") << endl;
-		// cout << "mf_proximal: " << mj_name2id(model, mjOBJ_BODY, "mf_proximal") << endl;
-		// cout << "mf_medial: " << mj_name2id(model, mjOBJ_BODY, "mf_medial") << endl;
-		// cout << "mf_distal: " << mj_name2id(model, mjOBJ_BODY, "mf_distal") << endl;
-		// cout << "mf_tip: " << mj_name2id(model, mjOBJ_BODY, "mf_tip") << endl;
-
-		// cout << "rf_base: " << mj_name2id(model, mjOBJ_BODY, "rf_base") << endl;
-		// cout << "rf_proximal: " << mj_name2id(model, mjOBJ_BODY, "rf_proximal") << endl;
-		// cout << "rf_medial: " << mj_name2id(model, mjOBJ_BODY, "rf_medial") << endl;
-		// cout << "rf_distal: " << mj_name2id(model, mjOBJ_BODY, "rf_distal") << endl;
-		// cout << "rf_tip: " << mj_name2id(model, mjOBJ_BODY, "rf_tip") << endl;
-
-		// cout << "th_base: " << mj_name2id(model, mjOBJ_BODY, "th_base") << endl;
-		// cout << "th_proximal: " << mj_name2id(model, mjOBJ_BODY, "th_proximal") << endl;
-		// cout << "th_medial: " << mj_name2id(model, mjOBJ_BODY, "th_medial") << endl;
-		// cout << "th_distal: " << mj_name2id(model, mjOBJ_BODY, "th_distal") << endl;
-		// cout << "th_tip: " << mj_name2id(model, mjOBJ_BODY, "th_tip") << endl;
-
-		// cout << "table_: " << mj_name2id(model, mjOBJ_BODY, "table_") << endl;
-		// cout << "Pen_: " << mj_name2id(model, mjOBJ_BODY, "Pen_") << endl;
-
-		// cout << "ffj0: " << mj_name2id(model, mjOBJ_JOINT, "ffj0") << endl;
-		// cout << "thj3: " << mj_name2id(model, mjOBJ_JOINT, "thj3") << endl;
-
 		for (int i = 0; i < 45; i++)
 		{
-			cout << "Geom ID: " << i << endl;
 			if (mj_id2name(model, mjOBJ_GEOM, i) != nullptr)
 			{
-				cout << "Name: " << mj_id2name(model, mjOBJ_GEOM, i) << endl;
+				cout << "Geom ID: " << i << " | Name: " << mj_id2name(model, mjOBJ_GEOM, i) << endl;
 			}
 		}
 
@@ -338,7 +300,7 @@ class RRTPlanner{
 int main()
 {
 	// Load the model
-	mjModel* model = mj_loadXML("../scene_right.xml", NULL, NULL, 0);
+	mjModel* model = mj_loadXML("/home/gaurav/Courses/Planning_16782/Project/revolve/scene_right.xml", NULL, NULL, 0);
 	model->opt.gravity[2] = -9.81; // Enable gravity
 
 	if (!model) {
@@ -406,12 +368,18 @@ int main()
 	// Initialize the planner
 	double start_anglesV_rad[NUM_OF_JOINTS] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
 	double goal_anglesV_rad[NUM_OF_JOINTS] = {0.0, 1.61, 0.0, 0.0, 0.0, 1.61, 0.0, 0.0 ,0.0, 1.61, 0.0, 0.0, 1.32, 0.453, 0.727, 0.0};//#{0.193, 1.03, 0.862, 0.373, 0.103, 0.96, 1.03, 0.363, 0.0, 0.933, 1.02, 0.566, 1.07, 0.802, 0.847};
-	vector<pair<int, int>> allowed_collisions = {{12, 44}, {22, 44}, {32, 44}, {42, 44}, {12, 43}, {22, 43}, {32, 43}, {42, 43}, {43,44}};
+	vector<pair<int, int>> allowed_collisions = {{12, 44}, {22, 44}, {32, 44}, {42, 44}, {12, 43}, {22, 43}, {32, 43}, {42, 43}, {43,44},
+												{4,43}, {6,43}, {8,43}, {10,43}, {12, 43}, {14, 43}, {16, 43}, {18, 43},
+												{20,43}, {22,43}, {24,43}, {26,43}, {28, 43}, {30, 43}, {32, 43}, {34, 43}, 
+												{36,43}, {38,43}, {40,43}, 
+												{4,44}, {6,44}, {8,44}, {10,44}, {12, 44}, {14, 44}, {16, 44}, {18, 44},
+												{20,44}, {22,44}, {24,44}, {26,44}, {28, 44}, {30, 44}, {32, 44}, {34, 44}, 
+												{36,44}, {38,44}, {40,44}};
 
 	RRTPlanner planner(model, data, start_anglesV_rad, goal_anglesV_rad, 0.1, allowed_collisions);
 
 	Node goal_node = Node(goal_anglesV_rad, nullptr);
-	Node* result = planner.build_rrt(1000);
+	Node* result = planner.build_rrt(100000);
 
 	double** plan;
 	int planlength;
@@ -428,7 +396,7 @@ int main()
 	cin.get(); 
 
 	// Ensure gravity is enabled in the model
-	model->opt.gravity[1] = -9.81; // Set gravity along the z-axis
+	// model->opt.gravity[2] = -9.81; // Set gravity along the z-axis
 
 	// Make the body as free joint now and keep running the simulation 
 	// int body_id = mj_name2id(model, mjOBJ_BODY, "pen"); 
@@ -466,7 +434,8 @@ int main()
 			for (int j = 0; j < NUM_OF_JOINTS; j++) {
 				data->qpos[j] = plan[i][j];
 			}
-			mj_forward(model, data);
+			// mj_forward(model, data);
+			mj_step(model, data);
 
 			// Render scene
 			mjrRect viewport = {0, 0, 1200, 900};
@@ -478,11 +447,9 @@ int main()
 			glfwPollEvents();
 
 			// Add a small delay to visualize the motion
-			std::this_thread::sleep_for(std::chrono::milliseconds(100));
+			// std::this_thread::sleep_for(std::chrono::milliseconds(100));
 		}
 	}
-
-	// --------------------------------------------------------------------------------------------------
 	// int body_id = mj_name2id(model, mjOBJ_BODY, "pen"); 
 	// if (body_id != -1) {
 	// 	int jnt_adr = model->body_jntadr[body_id];
@@ -521,9 +488,10 @@ int main()
 		// Step the simulation
 		// mj_step(model, data);
 		for (int j = 0; j < NUM_OF_JOINTS; j++) {
-			data->qpos[j] = plan[planlength-1][j];
+			data->qpos[j] = plan[0][j];
 		}
-		mj_forward(model, data);
+		// mj_forward(model, data);
+		mj_step(model, data);
 
 		// Render scene
 		mjrRect viewport = {0, 0, 1200, 900};
