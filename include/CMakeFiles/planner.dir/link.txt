@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/planner.dir/src/planner.cpp.o -o planner  -Wl,-rpath,/home/gaurav/.mujoco/mujoco-3.2.5/lib /home/gaurav/.mujoco/mujoco-3.2.5/lib/libmujoco.so -lglfw -lpthread -ldl -lm 

@@ -534,13 +534,13 @@ int main()
 	double goal_anglesV_rad[NUM_OF_JOINTS] = {0.193, 1.03, 0.862, 0.373, 0.103, 0.96, 1.03, 0.363, 0.0, 0.933, 1.02, 0.566, 1.07, 0.802, 0.847};
 	vector<pair<int, int>> allowed_collisions = {{12, 43}, {22, 43}, {32, 43}, {42, 43}};
 
-	RRTPlanner planner(model, data, start_anglesV_rad, goal_anglesV_rad, 0.1, allowed_collisions);
-	// RRTStarPlanner planner(model, data, start_anglesV_rad, goal_anglesV_rad, 0.1, allowed_collisions, 0.5);
+	// RRTPlanner planner(model, data, start_anglesV_rad, goal_anglesV_rad, 0.1, allowed_collisions);
+	RRTStarPlanner planner(model, data, start_anglesV_rad, goal_anglesV_rad, 0.1, allowed_collisions, 0.5);
 
 
 	Node goal_node = Node(goal_anglesV_rad, nullptr);
-	Node* result = planner.build_rrt(1000);
-	// Node* result = planner.build_rrt_star(1000);
+	// Node* result = planner.build_rrt(1000);
+	Node* result = planner.build_rrt_star(1000);
 
 
 	double** plan;
@@ -590,13 +590,22 @@ int main()
 	// } else {
 	// 	std::cerr << "Body name 'pen' not found!" << std::endl;
 	// }
-	
+	int hand_body_id = mj_name2id(model, mjOBJ_BODY, "palm");
+	cout << "Hand Body ID: " << hand_body_id << endl;
+	cout << "Length of xpos: " << sizeof(data->xpos) / sizeof(data->xpos[0]) << endl;
 	if (result) {
 		for (int i = 0; i < planlength; i++) {
 			for (int j = 0; j < NUM_OF_JOINTS; j++) {
 				data->qpos[j] = plan[i][j];
 			}
-			mj_forward(model, data);
+			// Set the new position for the hand
+			data->xpos[3 * hand_body_id] = 0.5;     // x position
+			data->xpos[3 * hand_body_id + 1] = 0.5; // y position
+			data->xpos[3 * hand_body_id + 2] = 0.5; // z position
+			// mj_forward(model, data);
+			mj_step(model, data);
+
+
 
 			// Render scene
 			mjrRect viewport = {0, 0, 1200, 900};
