@@ -28,7 +28,7 @@
 
     <body name="table_" pos="0.8 0 0.5">
       <geom name="table" type="box" size="0.5 0.5 0.001"  rgba="0.7 0.7 0.7 1" condim="6" friction="0.7 0.002 0.002"/>
-      <body name="pen" pos="-0.2 0.2 0.09" >
+      <body name="pen" pos="-0.4 0.2 0.09" >
         <!-- <freejoint/> -->
         <geom type="cylinder" size="0.02 0.1 0.1" rgba="0.5 0.7 0.5 1" condim="6" priority="1"
         friction="0.7 0.002 0.002" euler="1.57 0 0"/>
@@ -38,7 +38,7 @@
         <geom type="box" size="0.05 0.05 0.05" rgba="1 0 0 1" condim="6" priority="1"
         friction="0.7 0.002 0.002" euler="0 0 0"/>
         </body>
-        <body name="obs_2" pos="-0.2 0.2 0.02" >
+        <body name="obs_2" pos="-0.4 0.2 0.02" >
         <!-- <freejoint/> -->
         <geom type="cylinder" size="0.05 0.05 0.05" rgba="1 0 0 1" condim="6" priority="1"
         friction="0.7 0.002 0.002" euler="0 0 0"/>
