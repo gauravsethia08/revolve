@@ -1,5 +1,5 @@
 <mujoco model="right_allegro_hand scene">
-  <include file="right_hand.xml"/>
+  <!-- <include file="right_hand.xml"/> -->
   <include file="panda_nohand.xml"/>
 
   <option gravity="0 0 -9.81"/>
@@ -9,7 +9,7 @@
   <visual>
     <rgba haze="0.15 0.25 0.35 1"/>
     <quality shadowsize="8192"/>
-    <global azimuth="130" elevation="-40"/>
+    <global azimuth="130" elevation="-60" />
   </visual>
 
   <asset>
@@ -22,17 +22,51 @@
   <worldbody>
     <light pos="0 0 1"/>
     <light pos="0.3 0 1.5" dir="0 0 -1" directional="true"/>
-    <geom name="floor" pos="0 0 -0.1" size="0 0 0.05" type="plane" material="groundplane"/>
-    <body name="pen" pos="0 0 0.1" >
-      <freejoint/>
-      <geom type="cylinder" size="0.005 0.1 0.1" rgba="0.5 0.7 0.5 1" condim="6" priority="1"
-      friction="0.7 0.002 0.002" euler="1.57 0 0"/>
+    <geom name="floor" pos="0 0 0" size="0 0 0.05" type="plane" material="groundplane"/>
+
+    <camera name="overview" pos="20 20 20" xyaxes="1 0 0 0 1 0"/>
+
+    <body name="table_" pos="0.8 0 0.5">
+      <geom name="table" type="box" size="0.5 0.5 0.001"  rgba="0.7 0.7 0.7 1" condim="6" friction="0.7 0.002 0.002"/>
+      <body name="pen" pos="-0.2 0 0.02" >
+        <!-- <freejoint/> -->
+        <geom type="cylinder" size="0.02 0.1 0.1" rgba="0.5 0.7 0.5 1" condim="6" priority="1"
+        friction="0.7 0.002 0.002" euler="1.57 0 0"/>
+        </body>
+        <body name="obs_1" pos="-0.4 0 0.02" >
+        <!-- <freejoint/> -->
+        <geom type="box" size="0.05 0.05 0.05" rgba="1 0 0 1" condim="6" priority="1"
+        friction="0.7 0.002 0.002" euler="0 0 0"/>
+        </body>
+        <body name="obs_2" pos="-0.2 0.2 0.02" >
+        <!-- <freejoint/> -->
+        <geom type="cylinder" size="0.05 0.05 0.05" rgba="1 0 0 1" condim="6" priority="1"
+        friction="0.7 0.002 0.002" euler="0 0 0"/>
+        </body>
+        <body name="obs_3" pos="-0.15 -0.2 0.02" >
+        <!-- <freejoint/> -->
+        <geom type="box" size="0.05 0.05 0.05" rgba="1 0 0 1" condim="6" priority="1"
+        friction="0.7 0.002 0.002" euler="0 0 0"/>
+        </body>
+        <body name="obs_4" pos="-0.05 -0.1 0.02" >
+        <!-- <freejoint/> -->
+        <geom type="cylinder" size="0.05 0.05 0.05" rgba="1 0 0 1" condim="6" priority="1"
+        friction="0.7 0.002 0.002" euler="0 0 0"/>
+        </body>
+        <body name="obs_5" pos="-0.05 0.2 0.02" >
+        <!-- <freejoint/> -->
+        <geom type="box" size="0.05 0.05 0.05" rgba="1 0 0 1" condim="6" priority="1"
+        friction="0.7 0.002 0.002" euler="0 0 0"/>
+        </body>
+        <body name="obs_6" pos="-0.3 -0.15 0.02" >
+        <!-- <freejoint/> -->
+        <geom type="cylinder" size="0.05 0.05 0.05" rgba="1 0 0 1" condim="6" priority="1"
+        friction="0.7 0.002 0.002" euler="0 0 0"/>
+        </body>
     </body>
-    <body name="panda" pos="0 0 0">
-      <!-- <include file="panda_nohand.xml"/> -->
-      <body name="right_hand" pos="0 0 0">
-        <!-- <include file="right_hand.xml"/> -->
-      </body>
-    </body>
+
+    
+
+    
   </worldbody>
 </mujoco>
