@@ -130,7 +130,7 @@ void localPlanner(mjModel* model, mjData* data, Visualizer& visualizer)
     }
 }
 
-void allPlanner(mjModel* model, mjData* data, Visualizer& visualizer)
+void allPlanner(mjModel* model, mjData* data, Visualizer& visualizer, char* argv[])
 {
     // // Initialize the planner
     // int num_of_dofs {23};
@@ -157,7 +157,7 @@ void allPlanner(mjModel* model, mjData* data, Visualizer& visualizer)
     // }
 
     // ----------------- Load information from config file -----------------
-    ifstream config_file("../src/config.txt");
+    ifstream config_file(argv[1]);
     if (!config_file) {
         cerr << "Failed to open config file" << endl;
         return;
@@ -227,7 +227,13 @@ void allPlanner(mjModel* model, mjData* data, Visualizer& visualizer)
 
     // Build the plan appropriately
 	Node goal_node = Node(goal_anglesV_rad, nullptr);
+
+    auto start_time = std::chrono::high_resolution_clock::now();
 	Node* result = planner.build_rrt_star(1000);
+
+    auto end_time = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> elapsed_time = end_time - start_time;
+    cout << "Elapsed time: " << elapsed_time.count() << " s" << endl;
 
 	double** plan;
 	int planlength{-1};
@@ -253,11 +259,21 @@ void allPlanner(mjModel* model, mjData* data, Visualizer& visualizer)
             visualizer.updateScene();
         }
     }
+    else{
+        while(true){
+            for (int j = 0; j < num_of_dofs; j++) {
+                data->qpos[j] = start_anglesV_rad[j];
+            }
+            mj_step(model, data);
+            visualizer.updateScene();
+        }
+    }
 }
-int main()
+int main(int argc, char* argv[])
 {
 	// Load the model
-	mjModel* model = mj_loadXML("../panda_with_hand.xml", NULL, NULL, 0);
+	mjModel* model = mj_loadXML("../pen_on_obs.xml", NULL, NULL, 0);
+    // mjModel* model = mj_loadXML("../panda_with_hand.xml", NULL, NULL, 0);
 
 	if (!model) {
 		std::cerr << "Failed to load model: " << std::endl;
@@ -272,12 +288,15 @@ int main()
     std::mt19937 gen(rd());
 
     // Define the bounds for random positions
-    std::uniform_real_distribution<> dis_x(-0.5, 0.5); // Adjust as needed
-    std::uniform_real_distribution<> dis_y(-0.5, 0.5); // Adjust as needed
+    std::uniform_real_distribution<> dis_x(-0.4, 0.0); // Adjust as needed
+    std::uniform_real_distribution<> dis_y(-0.4, 0.4); // Adjust as needed
     double z = 0.02; // Fixed height above the table
 
     // Set random positions for obstacles obs_1 to obs_6
     for (int i = 1; i <= 6; ++i) {
+
+        if (i==2)
+            continue;
         // Get the body ID
         std::string body_name = "obs_" + std::to_string(i);
         int body_id = mj_name2id(model, mjOBJ_BODY, body_name.c_str());
@@ -298,9 +317,13 @@ int main()
     Visualizer visualizer(model, data);
     visualizer.setupVisualization();
 
-    allPlanner(model, data, visualizer);
-
+    
+    allPlanner(model, data, visualizer, argv);
     cin.get();
+    // while (true) {
+    //     visualizer.updateScene();
+    // }
+
 
     // globalPlanner(model, data, visualizer);
 
