@@ -19,7 +19,7 @@ struct Node {
     double cost;      // Cost from the start
 
     Node(double* angles, Node* parent);
-    Node();
+    Node(int num_of_dofs);
 };
 
 // RRTStarPlanner class to implement RRT* algorithm

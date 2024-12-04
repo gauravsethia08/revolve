@@ -18,7 +18,7 @@ void Visualizer::setupVisualization()
 
     cout << "GLFW initialized successfully." << endl;
 
-    glfwSetErrorCallback(glfwErrorCallback);
+    glfwSetErrorCallback(Visualizer::glfwErrorCallback);
     // Create GLFW window
     window = glfwCreateWindow(1200, 900, "MuJoCo Collision Checker", nullptr, nullptr);
 
@@ -32,7 +32,7 @@ void Visualizer::setupVisualization()
     cout << "Window created successfully." << endl;
 
     glfwMakeContextCurrent(window);
-    glfwSetKeyCallback(window, keyboardCallback);
+    glfwSetKeyCallback(window, Visualizer::keyboardCallback);
     glfwSwapInterval(1); // Enable vsync
 
     // Create MuJoCo visualization context
@@ -74,12 +74,12 @@ void Visualizer::cleanupVisualization()
 }
 
 // Callback for GLFW errors
-static void Visualizer::glfwErrorCallback(int error, const char* description) {
+void Visualizer::glfwErrorCallback(int error, const char* description) {
     std::cerr << "GLFW Error (" << error << "): " << description << std::endl;
 }
 
 // Keyboard callback to exit the simulation
-static void Visualizer::keyboardCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
+void Visualizer::keyboardCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
     if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS) {
         glfwSetWindowShouldClose(window, GLFW_TRUE);
     }

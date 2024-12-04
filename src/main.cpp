@@ -28,7 +28,7 @@ using namespace std;
 
 // }
 
-void localPlanner(mjModel* model, mjData* data, const Visualizer& visualizer)
+void localPlanner(mjModel* model, mjData* data, Visualizer& visualizer)
 {
     // Initialize the planner
     int num_of_dofs {16};
@@ -36,33 +36,33 @@ void localPlanner(mjModel* model, mjData* data, const Visualizer& visualizer)
 	double goal_anglesV_rad[num_of_dofs] = {0.193, 1.03, 0.862, 0.373, 0.103, 0.96, 1.03, 0.363, 0.0, 0.933, 1.02, 0.566, 1.07, 0.802, 0.847};
 	vector<pair<int, int>> allowed_collisions = {{12, 43}, {22, 43}, {32, 43}, {42, 43}};
 
-	RRTStarPlanner planner(model, data, start_anglesV_rad, goal_anglesV_rad, 0.1, allowed_collisions, num_of_dofs);
+	RRTStarPlanner planner(model, data, start_anglesV_rad, goal_anglesV_rad, 0.1, allowed_collisions, 0.5, num_of_dofs);
 
-    // Build the plan appropriately
-	Node goal_node = Node(goal_anglesV_rad, nullptr);
-	Node* result = planner.build_rrt_star(1000);
+    // // Build the plan appropriately
+	// Node goal_node = Node(goal_anglesV_rad, nullptr);
+	// Node* result = planner.build_rrt_star(1000);
 
-	double** plan;
-	int planlength;
-	// extract path
-	if (result) {
-        planner.extract_path(result, &plan, &planlength);
-	}
-    else{
-        cout << "No Goal Found" << endl;
-    }
+	// double** plan;
+	// int planlength;
+	// // extract path
+	// if (result) {
+    //     planner.extract_path(result, &plan, &planlength);
+	// }
+    // else{
+    //     cout << "No Goal Found" << endl;
+    // }
 
-	cout << "Plan Length: " << planlength << endl;
+	// cout << "Plan Length: " << planlength << endl;
 
-    if (result) {
-        for (int i = 0; i < planlength; i++) {
-            for (int j = 0; j < num_of_dofs; j++) {
-                data->qpos[j] = plan[i][j];
-            }
-            mj_forward(model, data);
-            visualizer.updateScene();
-        }
-    }
+    // if (result) {
+    //     for (int i = 0; i < planlength; i++) {
+    //         for (int j = 0; j < num_of_dofs; j++) {
+    //             data->qpos[j] = plan[i][j];
+    //         }
+    //         mj_forward(model, data);
+    //         visualizer.updateScene();
+    //     }
+    // }
 }
 
 int main()

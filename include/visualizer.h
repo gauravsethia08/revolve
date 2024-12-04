@@ -6,8 +6,6 @@
 #include "mujoco/mujoco.h"
 
 // Forward declarations for MuJoCo types
-struct mjModel;
-struct mjData;
 
 class Visualizer
 {

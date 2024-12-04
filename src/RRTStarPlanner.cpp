@@ -4,8 +4,8 @@
 Node::Node(double* angles, Node* parent) : angles(angles), parent(parent), cost(0) {}
 
 // Default Node constructor that initializes joint angles array and sets parent to nullptr
-Node::Node() {
-    angles = new double[NUM_OF_DOFS]; // Allocate space for joint angles
+Node::Node(int num_of_dofs) {
+    angles = new double[num_of_dofs]; // Allocate space for joint angles
     parent = nullptr;
     cost = 0; // Default cost is zero
 }
@@ -24,7 +24,7 @@ Node* RRTStarPlanner::build_rrt_star(int K) {
     for (int i = 0; i < K; i++) {
         Node* q_rand = random_config(q_goal);
         Node* q_nearest = nearest_neighbor(tree, q_rand);
-        Node* q_new = new Node();
+        Node* q_new = new Node(NUM_OF_DOFS);
 
         if (new_config(q_rand, q_nearest, q_new)) {
             vector<Node*> q_near = near_vertices(q_new);
@@ -169,7 +169,7 @@ bool RRTStarPlanner::new_config(Node* q, Node* q_near, Node* q_new) {
     double step_size = min(eps, dist) / dist;
     bool advance = false;
     for (double alpha = step_size; alpha <= 1; alpha += step_size) {
-        Node* temp_node = new Node();
+        Node* temp_node = new Node(NUM_OF_DOFS);
         for (int i = 0; i < NUM_OF_DOFS; i++) {
             temp_node->angles[i] = q_near->angles[i] + alpha * (q->angles[i] - q_near->angles[i]);
         }
