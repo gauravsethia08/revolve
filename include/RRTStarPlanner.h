@@ -34,11 +34,12 @@ public:
     vector<pair<int, int>> allowed_collisions;  // Allowed collisions
     double neighborhood_radius;  // Radius for the neighborhood search
     int NUM_OF_DOFS;  // Number of DOFs in the planning problem
+    bool is_local;  // Flag to indicate if the planner is local or global
 
     // Constructor to initialize the RRTStarPlanner
     RRTStarPlanner(mjModel* model, mjData* data, double* start_anglesV_rad, 
                    double* goal_anglesV_rad, double eps, 
-                   vector<pair<int, int>> allowed_collisions, double neighborhood_radius, int num_of_dofs);
+                   vector<pair<int, int>> allowed_collisions, double neighborhood_radius, int num_of_dofs, bool is_local);
 
     // Function to build the RRT* tree
     Node* build_rrt_star(int K);

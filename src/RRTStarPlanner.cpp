@@ -11,9 +11,9 @@ Node::Node(int num_of_dofs) {
 }
 
 RRTStarPlanner::RRTStarPlanner(mjModel* model, mjData* data, double* start_anglesV_rad, double* goal_anglesV_rad, 
-                double eps, vector<pair<int, int>> allowed_collisions, double neighborhood_radius, int num_of_dofs)
+                double eps, vector<pair<int, int>> allowed_collisions, double neighborhood_radius, int num_of_dofs, bool is_local)
     : model(model), data(data), start_anglesV_rad(start_anglesV_rad), goal_anglesV_rad(goal_anglesV_rad),
-        eps(eps), allowed_collisions(allowed_collisions), neighborhood_radius(neighborhood_radius), NUM_OF_DOFS(num_of_dofs) {}
+        eps(eps), allowed_collisions(allowed_collisions), neighborhood_radius(neighborhood_radius), NUM_OF_DOFS(num_of_dofs), is_local(is_local)  {}
 
 Node* RRTStarPlanner::build_rrt_star(int K) {
     Node* q_init = new Node(start_anglesV_rad, nullptr);
@@ -114,7 +114,10 @@ Node* RRTStarPlanner::random_config(Node* q_goal) {
 
 bool RRTStarPlanner::is_valid_state(mjModel* model, mjData* data, const double* joint_states, vector<pair<int, int>>& allowed_collisions) {
     for (int i = 0; i < NUM_OF_DOFS; i++) {
-        data->qpos[i] = joint_states[i];
+        if (is_local)   
+            data->qpos[7+i] = joint_states[i];
+        else
+            data->qpos[i] = joint_states[i];
     }
     mj_forward(model, data);
     
