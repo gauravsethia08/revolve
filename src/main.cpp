@@ -177,6 +177,8 @@ int main()
 
     allPlanner(model, data, visualizer);
 
+    cin.get();
+
     // globalPlanner(model, data, visualizer);
 
     // cin.get();

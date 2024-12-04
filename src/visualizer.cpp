@@ -7,6 +7,19 @@ using namespace std;
 
 Visualizer::Visualizer(mjModel* model, mjData* data) : model(model), data(data) {}
 
+void Visualizer::init_camera()
+{
+    // Set camera position
+    camera.lookat[0] = 0.5;
+    camera.lookat[1] = 0.5;
+    camera.lookat[2] = 0.5;
+    camera.distance = 2.0;
+    camera.azimuth = 90.0;
+    camera.elevation = -30.0;
+    // camera.fovy = 45.0;
+}
+
+
 void Visualizer::setupVisualization()
 {
     // Setup visualization 
@@ -43,7 +56,8 @@ void Visualizer::setupVisualization()
     mjr_makeContext(model, &context, mjFONTSCALE_150);
 
     // Initialize camera
-    mjv_defaultCamera(&camera);
+    // mjv_defaultCamera(&camera);
+    init_camera();
 
     mjv_defaultOption(&opt);
 }
