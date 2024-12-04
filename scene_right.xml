@@ -1,5 +1,6 @@
 <mujoco model="right_allegro_hand scene">
   <include file="right_hand.xml"/>
+  <include file="panda_nohand.xml"/>
 
   <option gravity="0 0 -9.81"/>
 
