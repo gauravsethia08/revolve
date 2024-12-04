@@ -23,10 +23,42 @@
 
 using namespace std;
 
-// void globalPlanner()
-// {
+void globalPlanner(mjModel* model, mjData* data, Visualizer& visualizer)
+{
+    int num_of_dofs {7};
+    double start_anglesV_rad[num_of_dofs] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+    double goal_anglesV_rad[num_of_dofs] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+    vector<pair<int, int>> allowed_collisions = {{0, 1}, {1, 2}, {2, 3}, {3, 4}, {4, 5}, {5, 6}};
 
-// }
+    RRTStarPlanner planner(model, data, start_anglesV_rad, goal_anglesV_rad, 0.1, allowed_collisions, 0.5, num_of_dofs);
+
+    // Build the plan appropriately
+    Node goal_node = Node(goal_anglesV_rad, nullptr);
+    Node* result = planner.build_rrt_star(1000);
+
+    double** plan;
+    int planlength;
+    // extract path
+    if (result) {
+        planner.extract_path(result, &plan, &planlength);
+    }
+    else{
+        cout << "No Goal Found" << endl;
+    }
+
+    cout << "Plan Length: " << planlength << endl;
+
+    if (result) {
+        for (int i = 0; i < planlength; i++) {
+            for (int j = 0; j < num_of_dofs; j++) {
+                data->qpos[j] = plan[i][j];
+            }
+            // mj_forward(model, data);
+            mj_step(model, data);
+            visualizer.updateScene();
+        }
+    }
+}
 
 void localPlanner(mjModel* model, mjData* data, Visualizer& visualizer)
 {
@@ -38,31 +70,32 @@ void localPlanner(mjModel* model, mjData* data, Visualizer& visualizer)
 
 	RRTStarPlanner planner(model, data, start_anglesV_rad, goal_anglesV_rad, 0.1, allowed_collisions, 0.5, num_of_dofs);
 
-    // // Build the plan appropriately
-	// Node goal_node = Node(goal_anglesV_rad, nullptr);
-	// Node* result = planner.build_rrt_star(1000);
+    // Build the plan appropriately
+	Node goal_node = Node(goal_anglesV_rad, nullptr);
+	Node* result = planner.build_rrt_star(1000);
 
-	// double** plan;
-	// int planlength;
-	// // extract path
-	// if (result) {
-    //     planner.extract_path(result, &plan, &planlength);
-	// }
-    // else{
-    //     cout << "No Goal Found" << endl;
-    // }
+	double** plan;
+	int planlength;
+	// extract path
+	if (result) {
+        planner.extract_path(result, &plan, &planlength);
+	}
+    else{
+        cout << "No Goal Found" << endl;
+    }
 
-	// cout << "Plan Length: " << planlength << endl;
+	cout << "Plan Length: " << planlength << endl;
 
-    // if (result) {
-    //     for (int i = 0; i < planlength; i++) {
-    //         for (int j = 0; j < num_of_dofs; j++) {
-    //             data->qpos[j] = plan[i][j];
-    //         }
-    //         mj_forward(model, data);
-    //         visualizer.updateScene();
-    //     }
-    // }
+    if (result) {
+        for (int i = 0; i < planlength; i++) {
+            for (int j = 0; j < num_of_dofs; j++) {
+                data->qpos[j] = plan[i][j];
+            }
+            // mj_forward(model, data);
+            mj_step(model, data);
+            visualizer.updateScene();
+        }
+    }
 }
 
 int main()
