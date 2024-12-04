@@ -10,6 +10,7 @@ Visualizer::Visualizer(mjModel* model, mjData* data) : model(model), data(data) 
 void Visualizer::init_camera()
 {
     // Set camera position
+    camera.type = mjCAMERA_FREE;
     camera.lookat[0] = 0.5;
     camera.lookat[1] = 0.5;
     camera.lookat[2] = 0.5;
