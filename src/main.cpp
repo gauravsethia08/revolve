@@ -22,12 +22,9 @@
 
 #include <iostream>
 #include <vector>
-// #include <Eigen/Dense>
-// #include "franka.h"   // FrankaArm class
 
 
 using namespace std;
-// using namespace Eigen;
 
 
 void globalPlanner(mjModel* model, mjData* data, Visualizer& visualizer)
@@ -132,30 +129,6 @@ void localPlanner(mjModel* model, mjData* data, Visualizer& visualizer)
 
 void allPlanner(mjModel* model, mjData* data, Visualizer& visualizer, char* argv[])
 {
-    // // Initialize the planner
-    // int num_of_dofs {23};
-	// double start_anglesV_rad[num_of_dofs] = {0.0, 0.0, 0.0, 0.0, 0.0, 0.793, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-	// double goal_anglesV_rad[num_of_dofs] = {0.0578656, 0.00484065, -9.67339e-05, -1.55885, -0.000475122, 2.09537, 2.8968, -0.552715, 0.0559791, 1.44565, 0.42832, -0.293626, 0.113725, 1.37835, 0.442406, -0.0584939, 0.217719, 1.26196, 0.380962, 1.39196, -0.108564, 1.21286, -0.104381}; //{0.115885, 0.342909, -0.231399, -0.810337, 0.0577116, 1.39522, 2.89704, -0.00725476, 0.287009, -0.0878901, -0.0324261, -0.00516717, 0.355593, -0.0676449, -0.0278528, 0.00202279, 0.38239, -0.00351541, -0.00111891, 1.39599, 0.165781, 0.725218, 1.15223}; //{0.0, 0.924, 0.165, -0.061, 0.0, 1.06, 0.0, 0.0, 0.0, 1.09, 0.0, 0.0, 0.767, 1.16, 1.4, 0.0};//{0.193, 1.03, 0.862, 0.373, 0.103, 0.96, 1.03, 0.363, 0.0, 0.933, 1.02, 0.566, 1.07, 0.802, 0.847};
-	// vector<pair<int, int>> allowed_collisions = {{12,14}, {14,16}, {16,21}, {21,26},{26,30}, {26,31}, {26,32}, {30,31}, {30, 32}, {31,32}, {30, 50}, {31,50}, {32,50}, {50, 59},
-    //                                             // Hand
-    //                                             {61, 102}, {63, 102}, {65, 102}, {67, 102}, {69, 102}, {71, 102}, {73, 102}, {75, 102}, {77,102}, 
-    //                                             {79,102}, {81,102}, {83,102}, {85,102}, {87, 102}, {89, 102}, {91, 102}, {93, 102},
-    //                                             {95,102}, {97,102}, {99,102}, {101,102},
-    //                                             {61, 103}, {63, 103}, {65, 103}, {67, 103}, {69, 103}, {71, 103}, {73, 103}, {75, 103}, {77,103}, 
-    //                                             {79,103}, {81,103}, {83,103}, {85,103}, {87, 103}, {89, 103}, {91, 103}, {93, 103},
-    //                                             {95,103}, {97,103}, {99,103}, {101,103}};
-
-    // // Update the pen's location in the simulation
-    // std::string pen_body_name = "pen";
-    // int pen_body_id = mj_name2id(model, mjOBJ_BODY, pen_body_name.c_str());
-
-    // if (pen_body_id >= 0) {
-    //     // Set the new position for the pen
-    //     model->body_pos[3 * pen_body_id + 0] = -0.2;
-    //     model->body_pos[3 * pen_body_id + 1] = 0.1;
-    //     model->body_pos[3 * pen_body_id + 2] = 0.02;
-    // }
-
     // ----------------- Load information from config file -----------------
     ifstream config_file(argv[1]);
     if (!config_file) {
@@ -319,18 +292,6 @@ int main(int argc, char* argv[])
 
     
     allPlanner(model, data, visualizer, argv);
-    cin.get();
-    // while (true) {
-    //     visualizer.updateScene();
-    // }
-
-
-    // globalPlanner(model, data, visualizer);
-
-    // cin.get();
-
-    // localPlanner(model, data, visualizer);
-
 
     visualizer.cleanupVisualization();
 }
