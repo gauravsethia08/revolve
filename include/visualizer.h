@@ -22,6 +22,8 @@ public:
     // Cleanup resources when done
     void cleanupVisualization();
 
+    void init_camera();
+
 private:
     // Member variables
     mjModel* model;

@@ -29,6 +29,9 @@ set(MUJOCO_INCLUDE_DIR "/home/gaurav/.mujoco/mujoco-3.2.5/include")
 set(MUJOCO_LIB_DIR "/home/gaurav/.mujoco/mujoco-3.2.5/lib")
 
 # Find GLFW (install with apt, brew, or from source if needed)
+find_package(Eigen3 REQUIRED)
+include_directories(${EIGEN3_INCLUDE_DIR})
+
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GLFW REQUIRED glfw3)
 
